@@ -1,0 +1,75 @@
+[
+    {
+        "name": "Trojan",
+        "location": "Germany",
+        "protocol": "Trojan",
+        "config": {
+            "log": {
+                "level": "info",
+                "timestamp": true
+            },
+            "dns": {
+                "servers": [
+                    {
+                        "tag": "dns-remote",
+                        "address": "tls://1.1.1.1",
+                        "detour": "proxy"
+                    },
+                    {
+                        "tag": "dns-local",
+                        "address": "223.5.5.5",
+                        "detour": "direct"
+                    }
+                ],
+                "rules": [
+                    {
+                        "outbound": "any",
+                        "server": "dns-local"
+                    }
+                ],
+                "strategy": "ipv4_only"
+            },
+            "route": {
+                "rules": [
+                    {
+                        "ip_is_private": true,
+                        "outbound": "direct"
+                    }
+                ],
+                "auto_detect_interface": true
+            },
+            "inbounds": [
+                {
+                    "type": "tun",
+                    "tag": "tun-in",
+                    "interface_name": "tun0",
+                    "inet4_address": "172.19.0.1/30",
+                    "auto_route": true,
+                    "strict_route": true,
+                    "stack": "system",
+                    "sniff": true,
+                    "sniff_override_destination": false
+                }
+            ],
+            "outbounds": [
+                {
+                    "type": "trojan",
+                    "tag": "proxy",
+                    "server": "2.26.30.94",
+                    "server_port": 8443,
+                    "password": "fuckyall",
+                    "network": "tcp",
+                    "tls": {
+                        "enabled": true,
+                        "server_name": "yandex.com",
+                        "insecure": true
+                    }
+                },
+                {
+                    "type": "direct",
+                    "tag": "direct"
+                }
+            ]
+        }
+    }
+]
