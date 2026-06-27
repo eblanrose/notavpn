@@ -32,6 +32,12 @@
             "route": {
                 "rules": [
                     {
+                        "ip_cidr": [
+                            "185.9.145.219/32"
+                        ],
+                        "outbound": "direct"
+                    },
+                    {
                         "ip_is_private": true,
                         "outbound": "direct"
                     }
